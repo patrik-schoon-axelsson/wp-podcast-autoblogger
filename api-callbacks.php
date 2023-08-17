@@ -4,6 +4,7 @@
 
 require_once plugin_dir_path(__FILE__) . 'includes/db.php';
 require_once plugin_dir_path(__FILE__) . 'includes/parser.php';
+require_once plugin_dir_path(__FILE__) . 'includes/custom-post-episodes.php';
 
 // REST API FUNCTIONS
 
@@ -14,6 +15,13 @@ function register_feed_table_endpoint() {
         'permission_callback' => '__return_true',
     ));
 }
+
+function register_episodes_endpoint() {
+    register_rest_route('podcast-autoblogger/v1', '/episodes/(?P<id>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'get_episodes_by_id'
+    ));
+} 
 
 
 // AJAX FUNCTIONS
@@ -85,6 +93,7 @@ function parse_feed_episodes() {
                 }
 
                 update_post_meta($ep, 'episode_url', $episode['url']);
+                update_post_meta($ep, 'feed_id', $id);
                 wp_set_post_terms($ep, $tag, 'rss_feed', true);
                 $res[] = array('id' => $ep, 'title' => $episode['title']);
             } 

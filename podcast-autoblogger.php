@@ -54,6 +54,8 @@ function feed_mgmt_admin_page() {
 
 add_action('rest_api_init', 'register_feed_table_endpoint');
 
+add_action('rest_api_init', 'register_episodes_endpoint');
+
 add_action('wp_ajax_parse_feed_episodes', 'parse_feed_episodes');
 
 add_action('admin_menu', 'feed_mgmt_admin_page');

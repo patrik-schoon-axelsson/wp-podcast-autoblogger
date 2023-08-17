@@ -72,6 +72,27 @@ function register_custom_taxonomy_feeds() {
     flush_rewrite_rules();
 }
 
+function get_episodes_by_id($request) {
+    $id = $request->get_param('id');
+
+    $args = array(
+        'post_type' => 'episode',
+        'meta_key' => 'feed_id',
+        'meta_value' => $id
+    );
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        $posts = $query->posts;
+        
+        wp_send_json($posts);
+    } else {
+        return new WP_Error('no_episodes_found', 'No episodes with a feed_id matching the given value located.', array('status' => 404));
+    }
+    wp_die();
+}
+
 function get_or_create_term($term_name) {
     $term = term_exists($term_name, 'rss_feed');
 
@@ -106,6 +127,11 @@ function save_custom_meta_field( $post_id ) {
     if ( isset( $_POST['episode_id'] ) ) {
         $episode_id = sanitize_text_field( $_POST['episode_id'] );
         update_post_meta( $post_id, 'episode_id', $episode_id );
+    }
+
+    if ( isset( $_POST['feed_id'] ) ) {
+        $feed_id = sanitize_text_field( $_POST['feed_id'] );
+        update_post_meta( $post_id, 'feed_id', $feed_id );
     }
 }
 
