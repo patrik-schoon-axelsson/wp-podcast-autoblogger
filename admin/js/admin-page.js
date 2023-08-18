@@ -1,12 +1,11 @@
-jQuery(document).ready(function($) {
-    console.log(phpData);
-    	    
-        function parse_feed(id) {
+// State management and AJAX for admin-page.php
+document.addEventListener('alpine:init', () => (
+    Alpine.data('app', () => ({
+        parse_feed: function (id) {
             
 
             let formData = new FormData();
             let data = {
-                
                 'id': id
             };
 
@@ -23,14 +22,7 @@ jQuery(document).ready(function($) {
             .then(res => res.json())
             .then(res => console.log(res))
             .catch(err => console.error(err.data));
-       
-        }
-        
-        $(".button-parser").on('click', function () {
-            
-            let id = $(this).data('feedIdentity');
-            parse_feed(id);
-            
-        })
-    
-});
+        },
+        msg: 'Podviewer Plugin'
+        }))
+))     

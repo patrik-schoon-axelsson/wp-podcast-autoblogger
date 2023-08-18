@@ -27,7 +27,9 @@ function render_admin_page() {
     }
 
     ?>
-    <div class="wrap aligncenter" x-data="{ msg: 'Podviewer Plugin' }">
+    <!-- Find the correct way to add alpine after evaluation. -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <div class="wrap aligncenter" x-data="app">
         <h1 x-text="msg" style="text-align: center"></h1>
 
         <!-- Podcast feed form -->
@@ -65,7 +67,7 @@ function render_admin_page() {
                         <td><?php echo esc_html($row['description']); ?></td>
                         <td><?php echo esc_html($row['feed_url']); ?></td>
                         <td><?php echo esc_html($row['web_link']); ?></td>
-                        <td><button class="<?php echo 'button-parser' ?> button-primary" data-feed-identity="<?php echo $row['id'] ?>">Check for new episodes</button></td>
+                        <td><button class="<?php echo 'button-parser' ?> button-primary" @click="parse_feed(<?php echo $row['id'] ?>)">Check for new episodes</button></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -75,10 +77,35 @@ function render_admin_page() {
     add_action( 'admin_footer', 'admin_add_javascript' );
     
     function admin_add_javascript() { ?>
-    <!-- Find the correct way to add alpine after evaluation. -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-	<script type="text/javascript" >
-    	
-	</script> <?php
+    <script>
+        document.addEventListener('alpine:init', () => (
+            Alpine.data('app', () => ({
+                parse_feed: function (id) {
+                    
+
+                    let formData = new FormData();
+                    let data = {
+                        'id': id
+                    };
+
+                    formData.append('action', 'parse_feed_episodes',);
+                    formData.append('id', id)
+                    formData.append('add_episodes_nonce', phpData.add_episodes_nonce)
+
+                    let options = {
+                        method: 'POST',
+                        body: formData
+                    };
+
+                    fetch(ajaxurl, options)
+                    .then(res => res.json())
+                    .then(res => console.log(res))
+                    .catch(err => console.error(err.data));
+                },
+                msg: 'Podviewer Plugin'
+                }))
+        ))        
+    </script>
+    <?php
 }
 };
