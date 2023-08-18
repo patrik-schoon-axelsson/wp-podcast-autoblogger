@@ -78,39 +78,7 @@ function render_admin_page() {
     <!-- Find the correct way to add alpine after evaluation. -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	<script type="text/javascript" >
-    	jQuery(document).ready(function($) {
-    	    
-    	    function parse_feed(id) {
-    	        
-
-                let formData = new FormData();
-        		let data = {
-        			
-        			'id': id
-        		};
-
-                formData.append('action', 'parse_feed_episodes',);
-                formData.append('id', id)
-
-                let options = {
-                    method: 'POST',
-                    body: formData
-                };
-
-                fetch(ajaxurl, options)
-                .then(res => res.json())
-                .then(res => console.log(res))
-                .catch(err => console.error(err.data));
-           
-    	    }
-    	    
-    	    $(".button-parser").on('click', function () {
-    	        
-    	        let id = $(this).data('feedIdentity');
-    	        parse_feed(id);
-    	        
-    	    })
-    	});
+    	
 	</script> <?php
 }
 };

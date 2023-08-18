@@ -44,6 +44,8 @@ function eps_to_cpt_episodes($eps) {
 }
 
 function parse_feed_episodes() {
+    if (isset($_POST['add_episodes_nonce']) && wp_verify_nonce($_POST['add_episodes_nonce'], 'add_episodes_nonce')) {
+     
     $id = $_POST['id'];
     $feed = get_single_podcast_feed($id);
     $title = $feed['title'];
@@ -105,5 +107,10 @@ function parse_feed_episodes() {
     }
 
     wp_send_json($res, JSON_UNESCAPED_SLASHES);
+     
+    } else {
+    // Nonce is invalid, return an error response
+    wp_send_json_error('Invalid nonce');
+    }
     wp_die();
 }

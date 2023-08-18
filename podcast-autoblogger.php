@@ -52,6 +52,19 @@ function feed_mgmt_admin_page() {
     );
 }
 
+function enqueue_admin_js() {
+    wp_enqueue_script('admin-page', plugin_dir_url( __FILE__ ) . 'admin/js/admin-page.js');
+
+    $data = array(
+        'add_episodes_nonce' => wp_create_nonce('add_episodes_nonce'),
+    );
+
+    
+    wp_localize_script('admin-page', 'phpData', $data);
+}
+
+add_action('admin_enqueue_scripts', 'enqueue_admin_js');
+
 add_action('rest_api_init', 'register_feed_table_endpoint');
 
 add_action('rest_api_init', 'register_episodes_endpoint');
