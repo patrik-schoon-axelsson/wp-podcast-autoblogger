@@ -27,8 +27,8 @@ function render_admin_page() {
     }
 
     ?>
-    <div class="wrap">
-        <h1>Podcast Feeds</h1>
+    <div class="wrap aligncenter" x-data="{ msg: 'Podviewer Plugin' }">
+        <h1 x-text="msg" style="text-align: center"></h1>
 
         <!-- Podcast feed form -->
         <form method="post" class="form-table">
@@ -75,6 +75,8 @@ function render_admin_page() {
     add_action( 'admin_footer', 'admin_add_javascript' );
     
     function admin_add_javascript() { ?>
+    <!-- Find the correct way to add alpine after evaluation. -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	<script type="text/javascript" >
     	jQuery(document).ready(function($) {
     	    
