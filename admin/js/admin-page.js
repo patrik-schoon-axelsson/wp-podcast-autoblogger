@@ -23,6 +23,7 @@ document.addEventListener('alpine:init', () => (
             .then(res => console.log(res))
             .catch(err => console.error(err.data));
         },
-        msg: 'Podviewer Plugin'
-        }))
-))     
+        msg: 'Podviewer Plugin',
+        })
+        ))
+    )

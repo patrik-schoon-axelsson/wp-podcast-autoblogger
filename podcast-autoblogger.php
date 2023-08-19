@@ -53,7 +53,7 @@ function feed_mgmt_admin_page() {
 }
 
 function enqueue_admin_js() {
-    wp_enqueue_script('admin-page', plugin_dir_url( __FILE__ ) . 'admin/js/admin-page.js');
+    wp_enqueue_script('admin-page', plugin_dir_url( __FILE__ ) . 'admin/js/admin-page.js', NULL);
 
     $data = array(
         'add_episodes_nonce' => wp_create_nonce('add_episodes_nonce'),

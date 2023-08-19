@@ -60,7 +60,8 @@ function render_admin_page() {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($table_data as $row) : ?>
+                <!-- 
+                <?php // foreach ($table_data as $row) : ?>
                     <tr>
                         <td><?php echo esc_html($row['id']); ?></td>
                         <td><?php echo esc_html($row['title']); ?></td>
@@ -69,7 +70,18 @@ function render_admin_page() {
                         <td><?php echo esc_html($row['web_link']); ?></td>
                         <td><button class="<?php echo 'button-parser' ?> button-primary" @click="parse_feed(<?php echo $row['id'] ?>)">Check for new episodes</button></td>
                     </tr>
-                <?php endforeach; ?>
+                <?php // endforeach; ?>
+                -->
+                <template x-for="row in table" x-data="{ table: [] }" x-init="fetch('https://podcasts.schoonaxelsson.com/wp-json/podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
+                    <tr>
+                        <td x-text="row.id"></td>
+                        <td x-text="row.title"></td>
+                        <td x-text="row.description"></td>
+                        <td x-text="row.feed_url"></td>
+                        <td x-text="row.web_link"></td>
+                        <td><button class="<?php echo 'button-parser' ?> button-primary" @click="parse_feed(row.id)">Check for new episodes</button></td>
+                    </tr>
+                </template>
             </tbody>
         </table>
     </div>
