@@ -48,31 +48,19 @@ function render_admin_page() {
         </form>
         <hr>
         <h1>Podcast Feeds</h1>
-        <table class="widefat">
+        <table class="widefat" x-data="{ table: [] }">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Feed URL</th>
-                    <th>Web Link</th>
+                    <th @click="table.sort((a, b) => a.id - b.id)">ID <span class="dashicons dashicons-arrow-down-alt2"></span></th>
+                    <th @click="table.sort((a, b) => a.title.localeCompare(b.title));">Title <span class="dashicons dashicons-arrow-down-alt2"></span></th>
+                    <th @click="table.sort((a, b) => a.description.localeCompare(b.description));">Description <span class="dashicons dashicons-arrow-down-alt2"></span></th>
+                    <th>Feed URL <span class="dashicons dashicons-arrow-down-alt2"></span></th>
+                    <th>Web Link <span class="dashicons dashicons-arrow-down-alt2"></span></th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- 
-                <?php // foreach ($table_data as $row) : ?>
-                    <tr>
-                        <td><?php echo esc_html($row['id']); ?></td>
-                        <td><?php echo esc_html($row['title']); ?></td>
-                        <td><?php echo esc_html($row['description']); ?></td>
-                        <td><?php echo esc_html($row['feed_url']); ?></td>
-                        <td><?php echo esc_html($row['web_link']); ?></td>
-                        <td><button class="<?php echo 'button-parser' ?> button-primary" @click="parse_feed(<?php echo $row['id'] ?>)">Check for new episodes</button></td>
-                    </tr>
-                <?php // endforeach; ?>
-                -->
-                <template x-for="row in table" x-data="{ table: [] }" x-init="fetch('https://podcasts.schoonaxelsson.com/wp-json/podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
+                <template x-for="row in table" x-init="fetch('https://podcasts.schoonaxelsson.com/wp-json/podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
                     <tr>
                         <td x-text="row.id"></td>
                         <td x-text="row.title"></td>
