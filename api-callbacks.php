@@ -26,6 +26,48 @@ function register_episodes_endpoint() {
 
 // AJAX FUNCTIONS
 
+function delete_rss_feed() {
+    global $wpdb;
+    $id = $_POST['id'];
+
+}
+
+function add_rss_feed() {
+    global $wpdb;
+
+    $feed_url = sanitize_text_field($_POST['feed_url']);
+    $prefix = $wpdb->prefix;
+    $table_name = $prefix . "pod_autoblog";
+    
+    if (isset($_POST['add_feed_nonce']) && wp_verify_nonce($_POST['add_feed_nonce'], 'add_feed_nonce')) {
+        $parsed_data = parse_simplexml_to_array($feed_url);
+
+        $data = array(
+            'title' => $parsed_data['title'],
+            'description' => $parsed_data['description'],
+            'feed_url' => $feed_url,
+            'web_link' => $parsed_data['url'],
+        );
+
+        $new_row = $wpdb->insert($table_name, $data);    
+
+        if(!$new_row) {
+            wp_send_json_error(array('error' => "Could not write new row to custom table $table_name"), 500);
+        } else {
+
+            $new_feeds = get_podcast_feeds();
+
+            wp_send_json( array(
+                "msg" => "Successfully added $title to database!",
+                "feeds" => $new_feeds
+            ), 200);
+        }
+    } else {
+        wp_send_json_error('Invalid nonce', 403);
+    }
+}
+
+
 function eps_to_cpt_episodes($eps) {
     global $wpdb;
 
@@ -110,7 +152,7 @@ function parse_feed_episodes() {
      
     } else {
     // Nonce is invalid, return an error response
-    wp_send_json_error('Invalid nonce');
+    wp_send_json_error('Invalid nonce', 403);
     }
     wp_die();
 }

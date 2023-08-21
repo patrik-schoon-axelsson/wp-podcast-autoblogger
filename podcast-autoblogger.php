@@ -64,7 +64,8 @@ function enqueue_admin_js() {
         'add_feed_nonce' => wp_create_nonce('add_feed_nonce'),
         'delete_feed_nonce' => wp_create_nonce('delete_feed_nonce')
     );
-
+    wp_enqueue_script( 'alpine-js-cdn', 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js');
+    wp_script_add_data('alpine-js-cdn', 'defer', true);
     
     wp_localize_script('admin-page', 'phpData', $data);
 }
