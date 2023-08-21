@@ -52,11 +52,17 @@ function feed_mgmt_admin_page() {
     );
 }
 
+
+// JavaScript variable-injection for admin-page etc.
+
 function enqueue_admin_js() {
     wp_enqueue_script('admin-page', plugin_dir_url( __FILE__ ) . 'admin/js/admin-page.js', NULL);
 
     $data = array(
+        'restUrl' => get_rest_url(),
         'add_episodes_nonce' => wp_create_nonce('add_episodes_nonce'),
+        'add_feed_nonce' => wp_create_nonce('add_feed_nonce'),
+        'delete_feed_nonce' => wp_create_nonce('delete_feed_nonce')
     );
 
     

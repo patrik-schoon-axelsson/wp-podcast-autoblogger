@@ -60,7 +60,7 @@ function render_admin_page() {
                 </tr>
             </thead>
             <tbody>
-                <template x-for="row in table" x-init="fetch('https://podcasts.schoonaxelsson.com/wp-json/podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
+                <template x-for="row in table" x-init="fetch(phpData.restUrl+'podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
                     <tr>
                         <td x-text="row.id"></td>
                         <td x-text="row.title"></td>

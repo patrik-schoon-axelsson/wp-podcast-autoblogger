@@ -63,6 +63,7 @@ function register_custom_taxonomy_feeds() {
         'hierarchical'      => false, 
         'labels'            => $labels,
         'show_ui'           => true,
+        'show_in_nav_menus' => true,
         'show_admin_column' => true,
         'query_var'         => true,
         'rewrite'           => array('slug' => 'rss_feed'), 
