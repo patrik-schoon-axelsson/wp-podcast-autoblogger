@@ -1,6 +1,7 @@
 // State management and AJAX for admin-page.php
 document.addEventListener('alpine:init', () => (
     Alpine.data('app', () => ({
+        table: [],
         parse_feed: function (id) {
             
 
@@ -33,7 +34,7 @@ document.addEventListener('alpine:init', () => (
     
                 formData.append('action', 'add_rss_feed',);
                 formData.append('feed_url', feedUrl)
-                formData.append('add_episodes_nonce', phpData.add_episodes_nonce)
+                formData.append('add_feed_nonce', phpData.add_feed_nonce)
     
                 let options = {
                     method: 'POST',

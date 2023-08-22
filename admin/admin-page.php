@@ -10,16 +10,16 @@ function render_admin_page() {
         <h1 x-text="msg" style="text-align: center"></h1>
 
         <!-- Podcast feed form -->
-        <form @submit.prevent="addNewFeed()" class="form-table">
+        <form x-data="{feedUrl: ''}" @submit.prevent="addNewFeed(feedUrl)" class="form-table">
             <?php wp_nonce_field('podfeed-submission-nonce'); ?>
             <label for="feed_url" class="form-field">Feed URL:</label><br>
-            <input type="text" name="feed_url" class="regular-text" id="feed_url" required><br>
+            <input type="text" name="feed_url" class="regular-text" id="feed_url" required x-model="feedUrl"><br>
             <br>        
             <input type="submit" name="submit_podcast_feed"  class="button-primary" value="Add Podcast Feed">
         </form>
         <hr>
         <h1>Podcast Feeds</h1>
-        <table class="widefat" x-data="{ table: [] }">
+        <table class="widefat">
             <thead>
                 <tr>
                     <th @click="table.sort((a, b) => a.id - b.id)">ID <span class="dashicons dashicons-arrow-down-alt2"></span></th>
@@ -35,7 +35,7 @@ function render_admin_page() {
                     <tr>
                         <td x-text="row.id"></td>
                         <td x-text="row.title"></td>
-                        <td x-text="row.description"></td>
+                        <td x-html="row.description"></td>
                         <td x-text="row.feed_url"></td>
                         <td x-text="row.web_link"></td>
                         <td><button class="<?php echo 'button-parser' ?> button-primary" @click="parse_feed(row.id)">Check for new episodes</button></td>

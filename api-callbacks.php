@@ -27,26 +27,36 @@ function register_episodes_endpoint() {
 // AJAX FUNCTIONS
 
 function delete_rss_feed() {
-    global $wpdb;
-    $id = $_POST['id'];
+    if (isset($_POST['delete_feed_nonce']) && wp_verify_nonce($_POST['delete_feed_nonce'], 'delete_feed_nonce')) {
+        global $wpdb;
+        $id = $_POST['id'];
+        $prefix = $wpdb->prefix;
+        $table_name = $prefix . "pod_autoblog";
 
+        $wpdb::delete($table_name, array('ID' => $id));
+
+        wp_send_json(array("msg" => "Deleted feed with ID: $id"));
+    } else {
+        wp_send_json_error('Invalid nonce', 403);
+    }
 }
 
 function add_rss_feed() {
+    
+    if (isset($_POST['add_feed_nonce']) && wp_verify_nonce($_POST['add_feed_nonce'], 'add_feed_nonce')) {
     global $wpdb;
 
     $feed_url = sanitize_text_field($_POST['feed_url']);
     $prefix = $wpdb->prefix;
     $table_name = $prefix . "pod_autoblog";
     
-    if (isset($_POST['add_feed_nonce']) && wp_verify_nonce($_POST['add_feed_nonce'], 'add_feed_nonce')) {
-        $parsed_data = parse_simplexml_to_array($feed_url);
-
+    
+        $parsed_data = parse_simplexml_to_array($_POST['feed_url']);
+        
         $data = array(
             'title' => $parsed_data['title'],
             'description' => $parsed_data['description'],
             'feed_url' => $feed_url,
-            'web_link' => $parsed_data['url'],
         );
 
         $new_row = $wpdb->insert($table_name, $data);    
@@ -62,6 +72,7 @@ function add_rss_feed() {
                 "feeds" => $new_feeds
             ), 200);
         }
+
     } else {
         wp_send_json_error('Invalid nonce', 403);
     }

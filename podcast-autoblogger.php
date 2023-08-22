@@ -78,6 +78,10 @@ add_action('rest_api_init', 'register_episodes_endpoint');
 
 add_action('wp_ajax_parse_feed_episodes', 'parse_feed_episodes');
 
+add_action('wp_ajax_add_rss_feed', 'add_rss_feed');
+
+add_action('wp_ajax_delete_rss_feed', 'delete_rss_feed');
+
 add_action('admin_menu', 'feed_mgmt_admin_page');
 
 add_action( 'init', 'custom_post_type_episodes' );

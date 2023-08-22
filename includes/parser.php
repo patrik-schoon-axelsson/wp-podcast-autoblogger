@@ -7,7 +7,7 @@ function parse_simplexml_to_array($url) {
     // First of all, check if $url is valid XML at all.
     if($feeds == false){
         wp_send_json_error(array(
-            "error" => "Error parsing the url of $title, please revalidate that the feed_url link is valid RSS.", 
+            "error" => "Error parsing the url, please revalidate that the feed_url link is valid RSS.", 
             "feed_url" => $url),
             500, JSON_UNESCAPED_SLASHES);
       wp_die();  
