@@ -29,13 +29,46 @@ function register_episodes_endpoint() {
 function delete_rss_feed() {
     if (isset($_POST['delete_feed_nonce']) && wp_verify_nonce($_POST['delete_feed_nonce'], 'delete_feed_nonce')) {
         global $wpdb;
-        $id = $_POST['id'];
+        $id = $_POST['feed_id'];
         $prefix = $wpdb->prefix;
         $table_name = $prefix . "pod_autoblog";
+        $feed = get_single_podcast_feed($id);
 
-        $wpdb::delete($table_name, array('ID' => $id));
+        $args = array(
+            'post_type'      => 'episode',
+            'meta_key'       => 'feed_id',              
+            'meta_value'     => $id,
+            'posts_per_page' => -1,
+            'meta_compare'   => '=',
+        );
 
-        wp_send_json(array("msg" => "Deleted feed with ID: $id"));
+        $query = new WP_Query($args);
+
+        $array_o_post = [];
+        
+        if($query -> have_posts()) {
+            while($query -> have_posts()) {
+    
+                $query -> the_post();
+                $post_id = get_the_ID();
+
+                wp_delete_post( $post_id, true );
+            }
+            wp_reset_query();
+        }
+
+
+        $wpdb->delete($table_name, array('ID' => $id));
+
+        $term_slug = sanitize_title($feed['title']);
+        $term = term_exists($term_slug, 'rss_feed');
+
+        if($term !== 0 && $term !== null) {
+            wp_delete_term($term['term_id'], 'rss_feed');
+        }
+        
+        wp_send_json(array("msg" => "Deleted feed with ID: $id and performed clean-up.", "term" => $term['term_id']));
+        
     } else {
         wp_send_json_error('Invalid nonce', 403);
     }
@@ -155,6 +188,7 @@ function parse_feed_episodes() {
         }
     }
 
+    
     if(empty($res)) {
         $res[] = array("msg" => 'No new episodes found in feed: ' . $title);
     }

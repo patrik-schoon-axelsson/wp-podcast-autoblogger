@@ -22,7 +22,7 @@ function render_admin_page() {
         <table class="widefat">
             <thead>
                 <tr>
-                    <th @click="table.sort((a, b) => a.id - b.id)">ID <span class="dashicons dashicons-arrow-down-alt2"></span></th>
+                    <th>Delete Feed</th>
                     <th @click="table.sort((a, b) => a.title.localeCompare(b.title));">Title <span class="dashicons dashicons-arrow-down-alt2"></span></th>
                     <th @click="table.sort((a, b) => a.description.localeCompare(b.description));">Description <span class="dashicons dashicons-arrow-down-alt2"></span></th>
                     <th>Feed URL <span class="dashicons dashicons-arrow-down-alt2"></span></th>
@@ -33,7 +33,7 @@ function render_admin_page() {
             <tbody>
                 <template x-for="row in table" x-init="fetch(phpData.restUrl+'podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
                     <tr>
-                        <td x-text="row.id"></td>
+                        <td><span class="dashicons dashicons-database-remove" @click="deleteFeed(row.id)"></span></td>
                         <td x-text="row.title"></td>
                         <td x-html="row.description"></td>
                         <td x-text="row.feed_url"></td>
