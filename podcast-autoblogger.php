@@ -72,6 +72,7 @@ function enqueue_admin_js() {
 
 function add_admin_css() {
     wp_enqueue_style('admin-page-styles', plugin_dir_url(__FILE__) . 'admin/css/styles.css');
+    wp_enqueue_style('admin-page-styles', plugin_dir_url(__FILE__) . 'admin/css/animate.min.css');
 }
 
 add_action('admin_enqueue_scripts', 'add_admin_css');
