@@ -33,7 +33,7 @@ function render_admin_page() {
             <tbody>
                 <template x-for="row in table" x-init="fetch(phpData.restUrl+'podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
                     <tr>
-                        <td><span class="dashicons dashicons-database-remove" @click="deleteFeed(row.id)"></span></td>
+                        <td><span class="dashicons dashicons-database-remove delete-feed" @click="deleteFeed(row.id)"></span></td>
                         <td x-text="row.title"></td>
                         <td x-html="row.description"></td>
                         <td x-text="row.feed_url"></td>

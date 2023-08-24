@@ -70,6 +70,12 @@ function enqueue_admin_js() {
     wp_localize_script('admin-page', 'phpData', $data);
 }
 
+function add_admin_css() {
+    wp_enqueue_style('admin-page-styles', plugin_dir_url(__FILE__) . 'admin/css/styles.css');
+}
+
+add_action('admin_enqueue_scripts', 'add_admin_css');
+
 add_action('admin_enqueue_scripts', 'enqueue_admin_js');
 
 add_action('rest_api_init', 'register_feed_table_endpoint');

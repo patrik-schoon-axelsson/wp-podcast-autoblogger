@@ -1,0 +1,7 @@
+.delete-feed {
+    color: blue;
+}
+
+.delete-feed:hover{
+    color: darkred;
+}
