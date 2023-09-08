@@ -68,11 +68,14 @@ function enqueue_admin_js() {
     wp_script_add_data('alpine-js-cdn', 'defer', true);
     
     wp_localize_script('admin-page', 'phpData', $data);
+    wp_register_script('admin-page-bootstrap', plugin_dir_url(__FILE__) . 'admin/js/bootstrap.bundle.min.js', array(), false, true);
+    wp_enqueue_script('admin-page-bootstrap');
 }
 
 function add_admin_css() {
+    wp_enqueue_style('admin-page-bootstrap-css', plugin_dir_url(__FILE__) . 'admin/css/bootstrap.min.css');
     wp_enqueue_style('admin-page-styles', plugin_dir_url(__FILE__) . 'admin/css/styles.css');
-    wp_enqueue_style('admin-page-styles', plugin_dir_url(__FILE__) . 'admin/css/animate.min.css');
+    wp_enqueue_style('admin-page-animations', plugin_dir_url(__FILE__) . 'admin/css/animate.min.css');
 }
 
 add_action('admin_enqueue_scripts', 'add_admin_css');

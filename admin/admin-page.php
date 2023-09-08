@@ -32,17 +32,43 @@ function render_admin_page() {
             </thead>
             <tbody>
                 <template x-for="row in table" x-init="fetch(phpData.restUrl+'podcast-autoblogger/v1/feeds').then(res => res.json()).then(res => table = res).catch(err => console.log(err)).finally(console.log('Done!'))" x-cloak>
-                    <tr>
-                        <td><span class="dashicons dashicons-database-remove delete-feed" @click="deleteFeed(row.id)"></span></td>
+                    <tr x-data="{ modal: '#modal-target-'+row.id }">
+                        <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="modal">
+                              Delete <span class="dashicons dashicons-database-remove delete-feed"></span>
+                        </button>
+                      </td>
                         <td x-text="row.title"></td>
                         <td x-html="row.description"></td>
                         <td x-text="row.feed_url"></td>
                         <td x-text="row.web_link"></td>
                         <td><button class="<?php echo 'button-parser' ?> button-primary" @click="parse_feed(row.id)">Check for new episodes</button></td>
+                        <template x-teleport="body">
+                        <div class="modal fade" :id="modal.substring(1)" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  Are you sure you want to delete the feed <b x-text="row.title"></b>? This will delete the feed and all Episode posts in the database associated with this feed.
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-danger">Delete Feed</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </template>
                     </tr>
                 </template>
             </tbody>
         </table>
-    </div>
+        <div id="modal-wrap">
+        </div>
     <?php
 }
