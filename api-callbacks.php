@@ -89,6 +89,7 @@ function add_rss_feed() {
         $data = array(
             'title' => $parsed_data['title'],
             'description' => $parsed_data['description'],
+            'web_link' => $parsed_data['link'],
             'feed_url' => $feed_url,
         );
 
