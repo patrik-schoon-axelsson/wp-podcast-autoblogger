@@ -58,7 +58,7 @@ function render_admin_page() {
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-danger">Delete Feed</button>
+                                  <button type="button" class="btn btn-danger" @click="deleteFeed(row.id)" data-bs-dismiss="modal">Delete Feed</button>
                                 </div>
                               </div>
                             </div>

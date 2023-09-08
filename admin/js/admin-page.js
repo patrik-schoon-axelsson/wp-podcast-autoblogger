@@ -44,7 +44,7 @@ document.addEventListener('alpine:init', () => (
                 .then(res => this.table = res.feeds)
                 .catch(err => console.error(err.data));
             },
-            deleteFeed: function(id) {
+        deleteFeed: function(id) {
                 let formData = new FormData();
                 
     
