@@ -18,6 +18,7 @@ function parse_simplexml_to_array($url) {
     
     $data["title"] = $feeds -> channel -> title[0]->__toString();
     $data["description"] = $feeds -> channel -> description[0]->__toString();
+    $data["web_link"] = $feeds -> channel -> link[0] ->__toString();
     
     foreach($feeds -> channel -> item as $item) {
             

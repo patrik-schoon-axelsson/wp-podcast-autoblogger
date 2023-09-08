@@ -89,14 +89,14 @@ function add_rss_feed() {
         $data = array(
             'title' => $parsed_data['title'],
             'description' => $parsed_data['description'],
-            'web_link' => $parsed_data['link'],
+            'web_link' => $parsed_data['web_link'],
             'feed_url' => $feed_url,
         );
 
-        $new_row = $wpdb->insert($table_name, $data);    
-
+        $new_row = $wpdb->insert($table_name, $data);               
+        
         if(!$new_row) {
-            wp_send_json_error(array('error' => "Could not write new row to custom table $table_name"), 500);
+            wp_send_json_error(array('error' => "Could not write new row to custom table $table_name."), 500);
         } else {
 
             $new_feeds = get_podcast_feeds();
