@@ -6,7 +6,8 @@ function render_admin_page() {
 
     ?>
     
-    <div class="wrap aligncenter" x-data="app">
+    <div class="container-fluid" x-data="app">
+      <div class="row">
         <h1 x-text="msg" style="text-align: center"></h1>
 
         <!-- Podcast feed form -->
@@ -17,8 +18,10 @@ function render_admin_page() {
             <br>        
             <input type="submit" name="submit_podcast_feed"  class="button-primary" value="Add Podcast Feed">
         </form>
-        <hr>
-        <h1>Podcast Feeds</h1>
+      </div>
+      <br>
+      <div class="row">
+        <h1 class="text-center">Podcast Feeds</h1>
         <table class="widefat">
             <thead>
                 <tr>
@@ -68,7 +71,9 @@ function render_admin_page() {
                 </template>
             </tbody>
         </table>
-        <div id="modal-wrap">
         </div>
+        <div id="modal-wrap"></div>
+        <div>
+
     <?php
 }

@@ -2,6 +2,7 @@
 document.addEventListener('alpine:init', () => (
     Alpine.data('app', () => ({
         table: [],
+        notifications: [],
         parse_feed: function (id) {
             
 
@@ -59,12 +60,12 @@ document.addEventListener('alpine:init', () => (
     
                 fetch(ajaxurl, options)
                 .then(res => res.json())
-                .then(res => console.log(res))
+                .then(res => this.notifications.push(res))
                 .catch(err => console.error(err.data));
-
+                console.log(this.notifications);
                 // Update the table after deletion.
                 this.table = this.table.filter(i => i['id'] !== id);
-
+                
             },
             msg: 'Podviewer Plugin',
         })
